@@ -1,7 +1,7 @@
 name: sazotech_coran
-description: "Application Android éducative SAZOTECH Coran — prototype Al-Fatiha"
+description: "Application Android educative SAZOTECH Coran - Al-Fatiha et audio"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.2.0+4
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  just_audio: ^0.10.6
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +21,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo_sazotech.png
+    - assets/audio/al_fatiha.mp3

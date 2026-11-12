@@ -1,0 +1,25 @@
+SAZOTECH CORAN - ETAPE 2 / CORRECTIF AUDIO
+========================================
+
+Ce ZIP contient des fichiers complets pour ton projet Flutter existant.
+Ne cree PAS un nouveau projet et ne modifie rien a la main.
+
+1. Arrete flutter run dans VS Code (q).
+2. Extrait ce ZIP dans C:\sazotech_coran avec -Force :
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape2_CORRECTIF_AUDIO.zip" -DestinationPath "C:\sazotech_coran" -Force
+3. Execute le script qui garantit la permission INTERNET :
+   powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\installer_audio.ps1"
+4. Execute :
+   cd C:\sazotech_coran
+   flutter pub get
+   flutter run -d emulator-5554
+
+Audio : MP3Quran en priorite, Al Quran Cloud en secours.
+La recitation est diffusee en streaming, aucun MP3 n'est inclus.
+Si les deux sources echouent, ouvre Chrome sur le Pixel 7 et teste :
+https://cdn.mp3quran.net/audio/mishary-alafasy/r1/001.mp3
+Les erreurs exactes sont imprimees dans le terminal sous "SAZOTECH Coran".
+
+Attends de tester Lecture / Pause / Reeecouter avant le prochain commit :
+fix: sources audio alternatives pour Al-Fatiha
+Puis Push origin dans GitHub Desktop.

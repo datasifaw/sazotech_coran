@@ -1,0 +1,27 @@
+SAZOTECH CORAN - ETAPE 2 : AUDIO LOCAL (CORRECTIF)
+
+Objectif : resoudre les echecs de streaming dans l'emulateur Android.
+Ce ZIP ne contient PAS le fichier MP3. Un script le telecharge sur ton PC (environ 1 Mo),
+puis Flutter l'integre dans l'application. La lecture sur Android ne necessite plus Internet.
+
+Etapes :
+1. Dans VS Code, quitte flutter run en tapant q dans le terminal.
+2. Decompresse ce ZIP dans C:\sazotech_coran (option -Force).
+3. Execute :
+   powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\installer_audio_hors_ligne.ps1"
+4. Une fois le message Audio pret affiche, execute :
+   cd C:\sazotech_coran
+   flutter pub get
+   flutter run -d emulator-5554
+5. Ouvre Al-Fatiha et teste Lecture / Pause / Reecouter.
+6. Seulement si tout marche : commit puis push GitHub Desktop.
+   Message : fix: lecture locale Al-Fatiha sur Android
+
+IMPORTANT - PROPRIETE INTELLECTUELLE
+Le script ajoute le MP3 a .gitignore : le fichier audio ne sera pas publie dans le depot GitHub.
+Il est destine a ton essai personnel et educatif. Avant de distribuer l'APK publiquement,
+verifie les droits de redistribution de la recitation.
+
+Sources :
+Al Quran Cloud : https://alquran.cloud/cdn et https://alquran.cloud/terms-and-conditions
+MP3Quran : https://www.mp3quran.net/fr/afs/downloads

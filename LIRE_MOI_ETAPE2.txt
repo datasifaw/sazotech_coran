@@ -1,0 +1,32 @@
+SAZOTECH CORAN — ETAPE 2 : AUDIO AL-FATIHA
+=================================================
+
+Fichiers dans le ZIP :
+- lib/main.dart : interface identique + lecteur Al-Fatiha avec Lecture/Pause/Reecouter
+- pubspec.yaml : dependance just_audio 0.10.6 incluse
+- assets/images/logo_sazotech.png : logo original conserve
+- test/widget_test.dart : test de l'ecran d'accueil conserve
+- installer_audio.ps1 : ajoute la permission Internet au manifest existant, sans
+  remplacer l'integralite du manifest Android.
+
+INSTALLATION (PowerShell Windows) :
+1) Arreter flutter run avec q si necessaire.
+2) Extraire le ZIP dans C:\sazotech_coran avec Expand-Archive -Force.
+3) Executer le script automatique :
+   powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\installer_audio.ps1"
+4) cd C:\sazotech_coran
+5) flutter pub get
+6) flutter run -d emulator-5554
+
+TEST : lire Al-Fatiha > Lecture, Pause, Lecture, Reecouter.
+Le texte arabe reste disponible sans Internet, mais l'audio est diffuse en
+ligne et necessite une connexion Internet sur l'emulateur.
+
+AUDIO :
+https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3
+Documentation CDN : https://alquran.cloud/cdn
+Conditions : https://alquran.cloud/terms-and-conditions
+Droits des enregistrements : leurs ayants droit respectifs.
+
+REMARQUE : c'est une mise a jour ciblant le projet Flutter cree precedemment.
+Ne pas extraire le ZIP dans un nouveau dossier. Testez avant le commit GitHub.
