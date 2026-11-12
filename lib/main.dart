@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'quiz_screen.dart';
+import 'sourates_screen.dart';
 
 void main() => runApp(const SazotechCoranApp());
 
@@ -91,6 +92,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => FatihaScreen(initialVerse: _dernierVerset),
+      ),
+    );
+    if (mounted) await _chargerProgression();
+  }
+
+  Future<void> _ouvrirBibliotheque() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => BibliothequeSouratesScreen(
+          onOuvrirFatiha: _ouvrirFatiha,
+        ),
       ),
     );
     if (mounted) await _chargerProgression();
@@ -248,6 +260,26 @@ class _AccueilScreenState extends State<AccueilScreen> {
                   icon: const Icon(Icons.quiz_outlined),
                   label: const Text(
                     'Quiz Al-Fatiha',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 54,
+                child: OutlinedButton.icon(
+                  key: const Key('bibliotheque_button'),
+                  onPressed: _ouvrirBibliotheque,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _softWhite,
+                    side: const BorderSide(color: Color(0xFF4386B1)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  icon: const Icon(Icons.library_books_rounded),
+                  label: const Text(
+                    'Bibliothèque • 4 sourates',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),

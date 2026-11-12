@@ -1,0 +1,57 @@
+SAZOTECH CORAN - ETAPE 6 : BIBLIOTHEQUE DE 4 SOURATES
+========================================================
+
+NOUVEAU
+- Bouton « Bibliothèque • 4 sourates » sur l'accueil.
+- Sourates disponibles : Al-Fatiha (1), Al-Ikhlas (112), Al-Falaq (113), An-Nas (114).
+- Lecture complète, en arabe avec voyelles, hors ligne, pour ces quatre sourates.
+- Al-Fatiha ouvre toujours son lecteur d'origine (audio MP3, progression, mode mémorisation).
+- Le quiz Al-Fatiha reste accessible comme avant.
+- Pour les trois nouvelles sourates, lecture seule : l'audio, le quiz et la mémorisation seront ajoutés plus tard.
+
+SOURCE DES TROIS NOUVEAUX TEXTES ARABES
+- https://quran.com/112 (4 versets)
+- https://quran.com/113 (5 versets)
+- https://quran.com/114 (6 versets)
+- La basmala figure séparément, sans être comptée parmi les versets de ces trois sourates.
+- Vérifier soigneusement l'exactitude du texte avant toute diffusion publique.
+
+FICHIERS INCLUS
+- lib/main.dart : fichier COMPLET, mis à jour, aucun collage manuel.
+- lib/quiz_screen.dart : code du quiz conservé.
+- lib/sourates_screen.dart : nouveau lecteur des petites sourates.
+- pubspec.yaml : configuration Flutter complète.
+- assets/images/logo_sazotech.png : logo original conservé.
+- test/*.dart : tests conservés + nouveau test.
+- installer_audio_hors_ligne.ps1 : script audio conservé.
+
+IMPORTANT POUR L'AUDIO
+Le ZIP ne contient PAS de fichier MP3. Ton MP3 existant dans
+C:\sazotech_coran\assets\audio\al_fatiha.mp3 est conservé.
+Ne pas diffuser le MP3 dans un dépôt GitHub public sans permission de redistribution.
+
+INSTALLATION - WINDOWS 11
+1. Dans le terminal flutter run, taper q si la session est active.
+2. Télécharger SAZOTECH_Coran_Etape6_BIBLIOTHEQUE.zip dans Téléchargements.
+3. Copier/coller dans PowerShell :
+   Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape6_BIBLIOTHEQUE.zip" -DestinationPath "C:\sazotech_coran" -Force
+4. Ne pas relancer flutter create ni flutter clean.
+5. Pixel 7 doit être démarré, une seule fenêtre, et apparaître avec flutter devices.
+6. Commandes :
+   cd C:\sazotech_coran
+   flutter pub get
+   flutter run -d emulator-5554
+
+TESTS
+- Accueil : le bouton « Bibliothèque • 4 sourates » apparaît.
+- Ouvrir ce bouton : vérifier les quatre sourates et les compteurs 7 / 4 / 5 / 6.
+- Ouvrir Al-Ikhlas : vérifier 4 versets en arabe.
+- Ouvrir Al-Falaq : vérifier 5 versets en arabe.
+- Ouvrir An-Nas : vérifier 6 versets en arabe.
+- Ouvrir Al-Fatiha : vérifier l'audio local, le dernier verset et le mode mémorisation.
+- Vérifier le quiz Al-Fatiha et le score enregistré.
+- Si le build échoue, envoyer les 20 dernières lignes du terminal.
+
+GIT - APRÈS TESTS
+Summary : feat: bibliotheque de quatre sourates
+Commit to main > Push origin dans GitHub Desktop.
