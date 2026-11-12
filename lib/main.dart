@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const SazotechCoranApp());
 
@@ -10,6 +11,24 @@ const _cyan = Color(0xFF00D4F0);
 const _softWhite = Color(0xFFE9F5FF);
 // Recitation audio importee localement pour le prototype (pas de reseau requis a la lecture).
 const _audioAsset = 'assets/audio/al_fatiha.mp3';
+const _lastVerseKey = 'sazotech_coran_al_fatiha_last_verse';
+
+// Une seule valeur enregistree localement : le dernier verset selectionne.
+// SharedPreferencesAsync utilise le stockage persistant Android (DataStore).
+class _Progression {
+  static final SharedPreferencesAsync _prefs = SharedPreferencesAsync();
+
+  static Future<int?> lire() async {
+    final verse = await _prefs.getInt(_lastVerseKey);
+    if (verse == null || verse < 1 || verse > 7) return null;
+    return verse;
+  }
+
+  static Future<void> enregistrer(int verse) async {
+    if (verse < 1 || verse > 7) return;
+    await _prefs.setInt(_lastVerseKey, verse);
+  }
+}
 
 class SazotechCoranApp extends StatelessWidget {
   const SazotechCoranApp({super.key});
@@ -33,8 +52,48 @@ class SazotechCoranApp extends StatelessWidget {
   }
 }
 
-class AccueilScreen extends StatelessWidget {
+class AccueilScreen extends StatefulWidget {
   const AccueilScreen({super.key});
+
+  @override
+  State<AccueilScreen> createState() => _AccueilScreenState();
+}
+
+class _AccueilScreenState extends State<AccueilScreen> {
+  int? _dernierVerset;
+  String? _erreurProgression;
+
+  @override
+  void initState() {
+    super.initState();
+    _chargerProgression();
+  }
+
+  Future<void> _chargerProgression() async {
+    try {
+      final verse = await _Progression.lire();
+      if (!mounted) return;
+      setState(() {
+        _dernierVerset = verse;
+        _erreurProgression = null;
+      });
+    } catch (error) {
+      debugPrint('SAZOTECH Coran - lecture progression : $error');
+      if (!mounted) return;
+      setState(() {
+        _erreurProgression = 'Progression locale indisponible.';
+      });
+    }
+  }
+
+  Future<void> _ouvrirFatiha() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => FatihaScreen(initialVerse: _dernierVerset),
+      ),
+    );
+    if (mounted) await _chargerProgression();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,15 +159,15 @@ class AccueilScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(22),
                   border: Border.all(color: const Color(0xFF19608B)),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Notre première sourate',
                       style: TextStyle(color: _cyan, fontSize: 14),
                     ),
-                    SizedBox(height: 9),
-                    Text(
+                    const SizedBox(height: 9),
+                    const Text(
                       'الفَاتِحَة',
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
@@ -117,11 +176,28 @@ class AccueilScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 6),
-                    Text(
+                    const SizedBox(height: 6),
+                    const Text(
                       'Al-Fatiha • 7 versets',
                       style: TextStyle(color: _softWhite, fontSize: 16),
                     ),
+                    if (_dernierVerset != null) ...[
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          const Icon(Icons.bookmark_added_rounded,
+                              color: _cyan, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Dernier verset : $_dernierVerset / 7',
+                              style: const TextStyle(
+                                  color: _cyan, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -129,13 +205,7 @@ class AccueilScreen extends StatelessWidget {
               SizedBox(
                 height: 56,
                 child: FilledButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const FatihaScreen(),
-                      ),
-                    );
-                  },
+                  onPressed: _ouvrirFatiha,
                   style: FilledButton.styleFrom(
                     backgroundColor: _cyan,
                     foregroundColor: _navy,
@@ -143,13 +213,26 @@ class AccueilScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  icon: const Icon(Icons.menu_book_rounded),
-                  label: const Text(
-                    'Lire Al-Fatiha',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                  icon: Icon(_dernierVerset == null
+                      ? Icons.menu_book_rounded
+                      : Icons.bookmark_rounded),
+                  label: Text(
+                    _dernierVerset == null
+                        ? 'Lire Al-Fatiha'
+                        : 'Reprendre au verset $_dernierVerset',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
+              if (_erreurProgression != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  _erreurProgression!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Color(0xFFFFC4C4)),
+                ),
+              ],
               const SizedBox(height: 22),
               const Text(
                 'Version A • Prototype Android',
@@ -165,7 +248,9 @@ class AccueilScreen extends StatelessWidget {
 }
 
 class FatihaScreen extends StatefulWidget {
-  const FatihaScreen({super.key});
+  const FatihaScreen({super.key, this.initialVerse});
+
+  final int? initialVerse;
 
   // Le texte arabe de l'etape 1 est conserve sans modification.
   static const List<String> versets = [
@@ -189,11 +274,20 @@ class _FatihaScreenState extends State<FatihaScreen> {
   bool _loaded = false;
   String? _error;
   String? _sourceName;
+  int? _versetSelectionne;
+  final List<GlobalKey> _cleVersets =
+      List<GlobalKey>.generate(7, (_) => GlobalKey());
 
   @override
   void initState() {
     super.initState();
     _player = AudioPlayer();
+    _versetSelectionne = widget.initialVerse;
+    if (_versetSelectionne == null) {
+      _restaurerProgression();
+    } else {
+      _allerAuVersetSelectionne();
+    }
     _audioErrorSubscription = _player.errorStream.listen((error) {
       debugPrint('SAZOTECH Coran - erreur de lecture: $error');
       if (!mounted || _preparing) return;
@@ -202,6 +296,49 @@ class _FatihaScreenState extends State<FatihaScreen> {
         _error = 'La lecture locale a été interrompue. Réessaie.';
       });
     });
+  }
+
+  Future<void> _restaurerProgression() async {
+    try {
+      final verse = await _Progression.lire();
+      if (!mounted) return;
+      setState(() => _versetSelectionne = verse);
+      _allerAuVersetSelectionne();
+    } catch (error) {
+      debugPrint('SAZOTECH Coran - restauration progression : $error');
+    }
+  }
+
+  void _allerAuVersetSelectionne() {
+    final verse = _versetSelectionne;
+    if (verse == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final verseContext = _cleVersets[verse - 1].currentContext;
+      if (verseContext == null) return;
+      Scrollable.ensureVisible(
+        verseContext,
+        duration: const Duration(milliseconds: 400),
+        alignment: 0.12,
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  Future<void> _memoriserVerset(int verse) async {
+    if (_versetSelectionne == verse) return;
+    final ancien = _versetSelectionne;
+    setState(() => _versetSelectionne = verse);
+    try {
+      await _Progression.enregistrer(verse);
+    } catch (error) {
+      debugPrint('SAZOTECH Coran - sauvegarde progression : $error');
+      if (!mounted) return;
+      setState(() => _versetSelectionne = ancien);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sauvegarde locale indisponible.')),
+      );
+    }
   }
 
   Future<void> _toggleAudio() async {
@@ -277,9 +414,11 @@ class _FatihaScreenState extends State<FatihaScreen> {
         title: const Text('Al-Fatiha'),
         centerTitle: true,
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
-        children: [
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
           const Text(
             'سُورَةُ الْفَاتِحَةِ',
             textDirection: TextDirection.rtl,
@@ -294,45 +433,79 @@ class _FatihaScreenState extends State<FatihaScreen> {
           ),
           const SizedBox(height: 22),
           _buildAudioPlayer(),
-          const SizedBox(height: 22),
+          const SizedBox(height: 14),
+          const Text(
+            'Touchez un verset pour enregistrer votre position de lecture.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
+          ),
+          const SizedBox(height: 18),
           for (int index = 0; index < FatihaScreen.versets.length; index++) ...[
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: const Color(0xFF102C4A),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: const Color(0xFF1D5274)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Verset ${index + 1}',
-                    style: const TextStyle(color: _cyan, fontSize: 13),
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    FatihaScreen.versets[index],
-                    textDirection: TextDirection.rtl,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      height: 2,
+                onTap: () => _memoriserVerset(index + 1),
+                child: Container(
+                  key: _cleVersets[index],
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: _versetSelectionne == index + 1
+                        ? const Color(0xFF174B68)
+                        : const Color(0xFF102C4A),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: _versetSelectionne == index + 1
+                          ? _cyan
+                          : const Color(0xFF1D5274),
+                      width: _versetSelectionne == index + 1 ? 2 : 1,
                     ),
                   ),
-                ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Verset ${index + 1}',
+                            style: const TextStyle(color: _cyan, fontSize: 13),
+                          ),
+                          const Spacer(),
+                          if (_versetSelectionne == index + 1) ...[
+                            const Icon(Icons.bookmark_added_rounded,
+                                color: _cyan, size: 18),
+                            const SizedBox(width: 5),
+                            const Text('Dernier lu',
+                                style: TextStyle(color: _cyan, fontSize: 12)),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        FatihaScreen.versets[index],
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          height: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 13),
           ],
           const SizedBox(height: 12),
           const Text(
-            'Texte et audio disponibles hors ligne pour ce prototype.',
+            'Texte, audio et progression disponibles hors ligne.',
             textAlign: TextAlign.center,
             style: TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

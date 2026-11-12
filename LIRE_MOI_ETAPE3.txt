@@ -1,0 +1,28 @@
+SAZOTECH Coran - ETAPE 3 : memorisation locale du verset
+
+PREREQUIS
+- Projet Flutter deja cree dans C:\sazotech_coran.
+- Etape 2 AUDIO LOCAL deja installee et testee.
+- Ne PAS supprimer assets/audio/al_fatiha.mp3. Le fichier audio n'est pas fourni dans ce ZIP, et reste sur votre PC.
+
+INSTALLATION (PowerShell, apres avoir arrete flutter run avec q)
+Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape3_PROGRESSION.zip" -DestinationPath "C:\sazotech_coran" -Force
+cd C:\sazotech_coran
+flutter pub get
+flutter run -d emulator-5554
+
+TEST
+1. Ouvrir Al-Fatiha.
+2. Toucher le verset 3 ou 4 : bordure cyan + mention Dernier lu.
+3. Revenir a l'accueil : bouton Reprendre au verset 3/4.
+4. Fermer l'application puis la rouvrir : la progression doit rester.
+5. Appuyer sur Reprendre : le bon verset est mis en avant et defile a l'ecran.
+6. Tester Lecture/Pause du MP3 local, identique a l'etape 2.
+
+GITHUB
+Apres tests reussis : feat: sauvegarde locale de la progression Al-Fatiha
+Dans GitHub Desktop : Commit to main, puis Push origin.
+Le fichier assets/audio/al_fatiha.mp3 doit rester ignore de Git.
+
+Notes : stockage local SharedPreferencesAsync (simple cle-valeur), pas SQLite ni MySQL.
+La sauvegarde se fait lorsqu'on TOUCHE un verset, pas automatiquement au defilement.

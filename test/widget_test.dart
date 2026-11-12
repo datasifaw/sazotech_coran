@@ -7,4 +7,7 @@ void main() {
     expect(find.text('SAZOTECH CORAN'), findsOneWidget);
     expect(find.text('Lire Al-Fatiha'), findsOneWidget);
   });
+  test('Al-Fatiha contient sept versets', () {
+    expect(FatihaScreen.versets.length, 7);
+  });
 }
