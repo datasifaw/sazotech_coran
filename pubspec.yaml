@@ -1,7 +1,7 @@
 name: sazotech_coran
-description: "Application Android educative SAZOTECH Coran - bibliotheque de sourates et audio Al-Fatiha"
+description: "Application Android educative SAZOTECH Coran - 4 sourates, audio hors-ligne, favoris et traduction francaise"
 publish_to: 'none'
-version: 1.6.0+8
+version: 1.9.0+9
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
@@ -22,4 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo_sazotech.png
-    - assets/audio/al_fatiha.mp3
+    - assets/audio/
+    - assets/traductions/

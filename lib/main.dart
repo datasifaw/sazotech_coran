@@ -5,6 +5,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'quiz_screen.dart';
 import 'sourates_screen.dart';
+import 'favoris_store.dart';
+import 'favoris_screen.dart';
+import 'traductions_store.dart';
 
 void main() => runApp(const SazotechCoranApp());
 
@@ -105,6 +108,26 @@ class _AccueilScreenState extends State<AccueilScreen> {
         ),
       ),
     );
+    if (mounted) await _chargerProgression();
+  }
+
+  Future<void> _ouvrirFavoris() async {
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (_) => FavorisScreen(
+        onOuvrir: (numeroSourate, verset) async {
+          if (numeroSourate == 1) {
+            await Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => FatihaScreen(initialVerse: verset),
+            ));
+          } else {
+            final s = petitesSourates.firstWhere((s) => s.numero == numeroSourate);
+            await Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (_) => LectureSourateCourteScreen(sourate: s, initialVerse: verset),
+            ));
+          }
+        },
+      ),
+    ));
     if (mounted) await _chargerProgression();
   }
 
@@ -284,6 +307,24 @@ class _AccueilScreenState extends State<AccueilScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 54,
+                child: OutlinedButton.icon(
+                  key: const Key('favoris_button'),
+                  onPressed: _ouvrirFavoris,
+                  icon: const Icon(Icons.star_rounded),
+                  label: const Text('Mes favoris et marque-pages',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _cyan,
+                    side: const BorderSide(color: _cyan),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ),
+              ),
               if (_erreurProgression != null) ...[
                 const SizedBox(height: 12),
                 Text(
@@ -333,6 +374,9 @@ class _FatihaScreenState extends State<FatihaScreen> {
   bool _loaded = false;
   String? _error;
   String? _sourceName;
+  Set<String> _favoris = <String>{};
+  PackTraductions? _traductions;
+  bool _traductionVisible = true;
   int? _versetSelectionne;
   // Le mode exercice ne change pas le texte arabe et ne modifie pas la progression.
   bool _modeMemorisation = false;
@@ -344,6 +388,7 @@ class _FatihaScreenState extends State<FatihaScreen> {
   void initState() {
     super.initState();
     _player = AudioPlayer();
+    _chargerExtras();
     _versetSelectionne = widget.initialVerse;
     if (_versetSelectionne == null) {
       _restaurerProgression();
@@ -358,6 +403,27 @@ class _FatihaScreenState extends State<FatihaScreen> {
         _error = 'La lecture locale a été interrompue. Réessaie.';
       });
     });
+  }
+
+  Future<void> _chargerExtras() async {
+    try {
+      final favoris = await FavorisStore.lire();
+      final traductions = await TraductionsStore.charger();
+      if (!mounted) return;
+      setState(() { _favoris = favoris; _traductions = traductions; });
+    } catch (error) {
+      debugPrint('SAZOTECH - favoris ou traductions : $error');
+    }
+  }
+
+  Future<void> _basculerFavori(int verse) async {
+    try {
+      final favoris = await FavorisStore.basculer(1, verse);
+      if (mounted) setState(() => _favoris = favoris);
+    } catch (error) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Impossible de sauvegarder le favori.')));
+    }
   }
 
   Future<void> _restaurerProgression() async {
@@ -527,6 +593,24 @@ class _FatihaScreenState extends State<FatihaScreen> {
           const SizedBox(height: 16),
           _buildMemorisationControls(),
           const SizedBox(height: 14),
+          SwitchListTile.adaptive(
+            key: const Key('traduction_switch_fatiha'),
+            title: const Text('Traduction française'),
+            subtitle: const Text('Sens des versets • Rachid Maach / QuranEnc'),
+            secondary: const Icon(Icons.translate, color: _cyan),
+            value: _traductionVisible,
+            activeThumbColor: _cyan,
+            onChanged: (value) => setState(() => _traductionVisible = value),
+          ),
+          if (_traductionVisible && _traductions == null)
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('Traduction non téléchargée : relance le script '
+                  'installer_etapes_7_8_9.ps1 sur ton PC.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.orangeAccent)),
+            ),
+          const SizedBox(height: 14),
           Text(
             _modeMemorisation
                 ? 'Récite de mémoire, puis touche un verset pour le révéler. '
@@ -541,8 +625,8 @@ class _FatihaScreenState extends State<FatihaScreen> {
             const SizedBox(height: 13),
           ],
           const SizedBox(height: 12),
-          const Text(
-            'Texte, audio et progression disponibles hors ligne.',
+          Text(
+            'Texte et audio disponibles hors ligne. Traduction des sens : Rachid Maach, QuranEnc.com • version ${_traductions?.version ?? 'non chargée'}.',
             textAlign: TextAlign.center,
             style: TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
           ),
@@ -640,6 +724,16 @@ class _FatihaScreenState extends State<FatihaScreen> {
                   Text('Verset $numero',
                       style: const TextStyle(color: _cyan, fontSize: 13)),
                   const Spacer(),
+                  IconButton(
+                    key: Key('favori_1_$numero'),
+                    tooltip: 'Ajouter ou retirer des favoris',
+                    onPressed: () => _basculerFavori(numero),
+                    icon: Icon(
+                      _favoris.contains(FavorisStore.id(1, numero))
+                          ? Icons.star_rounded : Icons.star_border_rounded,
+                      color: _cyan,
+                    ),
+                  ),
                   if (dernierLu) ...[
                     const Icon(Icons.bookmark_added_rounded,
                         color: _cyan, size: 18),
@@ -694,6 +788,22 @@ class _FatihaScreenState extends State<FatihaScreen> {
                     ],
                   ),
                 ),
+              if (_traductionVisible && revele &&
+                  index < (_traductions?.pour(1).length ?? 0)) ...[
+                const Divider(height: 25, color: Color(0xFF1D5274)),
+                Text(
+                  _traductions!.pour(1)[index].texte,
+                  style: const TextStyle(
+                    color: _softWhite, fontSize: 15, height: 1.5,
+                  ),
+                ),
+                if (_traductions!.pour(1)[index].notes.trim().isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(_traductions!.pour(1)[index].notes,
+                      style: const TextStyle(
+                        color: Color(0xFF9CBFD2), fontSize: 12)),
+                ],
+              ],
               if (_modeMemorisation) ...[
                 const SizedBox(height: 13),
                 Row(

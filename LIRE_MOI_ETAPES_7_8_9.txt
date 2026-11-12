@@ -1,0 +1,69 @@
+SAZOTECH CORAN - MISE A JOUR COMBINEE 7 + 8 + 9
+==============================================
+
+Aucune ligne de code a modifier manuellement.
+ZIP prevu pour etre decompresse directement dans C:\sazotech_coran.
+Il remplace le code de la version 6 mais ne supprime pas le MP3 Al-Fatiha.
+
+FONCTIONNALITES
+- Lecture hors ligne des 4 sourates : 1, 112, 113 et 114 (une fois les MP3 telecharges).
+- Boutons lecture, pause et reecouter.
+- Etoile sur chaque verset pour l'ajouter a Mes favoris.
+- Ecran Mes favoris : retrouver et retirer des versets enregistres.
+- Traduction francaise Rachid Maach / QuranEnc, version affichee dans l'interface.
+- Texte original de la traduction et notes inchanges ; telechargement au moment de l'installation.
+- Mode memorisation, quiz et progression d'Al-Fatiha conserves.
+
+INSTALLATION
+1) Arreter flutter run avec q ; conserver le projet existant.
+2) Telecharger SAZOTECH_Coran_Etapes_7_8_9.zip dans Downloads.
+3) Dans PowerShell :
+
+Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etapes_7_8_9.zip" -DestinationPath "C:\sazotech_coran" -Force
+
+4) Telecharger automatiquement les 3 MP3 manquants et les traductions :
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\installer_etapes_7_8_9.ps1"
+
+5) Si "SUCCES" est affiche et que le Pixel 7 est allume :
+
+cd C:\sazotech_coran
+flutter pub get
+flutter analyze
+flutter run -d emulator-5554
+
+6) Si flutter devices montre offline : redemarrer l'emulateur (Cold Boot), ne
+pas lancer d'autres instances en parallele.
+
+TESTS
+- La bibliotheque montre Al-Fatiha, Al-Ikhlas, Al-Falaq, An-Nas.
+- Lecture/Pause de chaque sourate fonctionne en mode avion (sur l'emulateur).
+- L'etoile est persistante apres fermeture/reouverture de l'app.
+- Mes favoris ouvre la bonne sourate et le bon verset.
+- Le bouton traduction affiche le sens francais sous chaque verset.
+- Le mode memorisation masque egalement la traduction du verset cache.
+- Le quiz et l'ancien marque-page d'Al-Fatiha fonctionnent toujours.
+
+COMMIT APRES VALIDATION
+feat: audios hors ligne favoris et traduction francaise
+Puis Commit to main et Push origin dans GitHub Desktop.
+
+DROITS ET SOURCES
+- Traduction francaise : Rachid Maach, source et editeur QuranEnc.com,
+  https://quranenc.com/fr/browse/french_rashid
+  Version recupereree automatiquement depuis le catalogue QuranEnc ;
+  texte et notes de bas de page conserves tels quels, sans modifications.
+  Avant publication publique, verifier les conditions de l'editeur et les mises a jour.
+- Recitations : Mishary Rashid Al-Afasy,
+  https://alquran.cloud/cdn
+  Enregistrements pour utilisation PERSONNELLE et EDUCATIVE ; toute redistribution
+  de l'APK contenant ces fichiers est a verifier avec les ayants droit.
+- Les MP3 et le JSON telecharges sont exclus du depot Git par .gitignore.
+- Le code fonctionne sans Docker, MySQL ou serveur : les favoris utilisent
+  SharedPreferencesAsync sur le telephone Android.
+
+NOTES
+Le ZIP ne contient pas de fichiers MP3 sous droits ni de traduction recopiee.
+Le script les telecharge sur votre PC. Si un serveur est indisponible, le script
+le dit explicitement et l'application reste utilisable avec ses fonctions de base.
+Ne pas lancer "flutter create" et ne pas supprimer les donnees de l'emulateur.
