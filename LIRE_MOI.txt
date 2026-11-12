@@ -1,0 +1,24 @@
+SAZOTECH Coran - Etape 1 COMPLETE (logo declare automatiquement)
+===============================================================
+
+Ce ZIP est prepare pour etre extrait a la racine du projet : C:\sazotech_coran
+Il contient :
+- pubspec.yaml : configuration Flutter COMPLETE avec le logo declare ;
+- lib/main.dart : accueil bleu et cyan + lecture d'Al-Fatiha ;
+- assets/images/logo_sazotech.png : embleme SAZOTECH fourni ;
+- test/widget_test.dart : test d'accueil.
+
+Vous n'avez aucun fichier a editer manuellement.
+
+COMMANDES PowerShell :
+1. Fermer le flutter run existant (q dans le terminal si necessaire)
+2. Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape1_COMPLETE.zip" -DestinationPath "C:\sazotech_coran" -Force
+3. cd C:\sazotech_coran
+4. flutter pub get
+5. flutter run -d emulator-5554
+
+Verifiez l'accueil bleu SAZOTECH et ouvrez la page Al-Fatiha.
+Puis GitHub Desktop > Changes > Commit to main > Push origin.
+Message : feat: accueil SAZOTECH et lecture Al-Fatiha
+
+Note : le projet Android, les configurations de plateforme et les fichiers Git existants ne sont pas remplaces.

@@ -1,0 +1,31 @@
+SAZOTECH Coran — Étape 1 : accueil et lecture d'Al-Fatiha
+=======================================================
+
+1. Décompresser le ZIP dans un dossier temporaire (par exemple Téléchargements).
+2. Copier dans votre projet C:\sazotech_coran :
+   - lib\main.dart  -> C:\sazotech_coran\lib\main.dart (remplacer)
+   - test\widget_test.dart -> C:\sazotech_coran\test\widget_test.dart (remplacer)
+   - assets\images\logo_sazotech.png -> C:\sazotech_coran\assets\images\logo_sazotech.png
+   Créer les dossiers assets et images s'ils n'existent pas.
+3. Dans C:\sazotech_coran\pubspec.yaml, SOUS la ligne « flutter: », ajouter :
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/logo_sazotech.png
+
+   IMPORTANT : ne pas ajouter deux blocs « flutter: », ni deux lignes « uses-material-design: ».
+   Ajouter uniquement les lignes « assets » sous le bloc existant.
+
+4. Dans le terminal VS Code :
+   cd C:\sazotech_coran
+   flutter pub get
+   flutter run -d emulator-5554
+
+5. Vérifier l'écran d'accueil, puis le bouton « Lire Al-Fatiha ».
+6. Dans GitHub Desktop : Changes -> Commit to main -> Push origin
+   Message : feat: accueil SAZOTECH et lecture Al-Fatiha
+
+Ce prototype n'intègre pas encore l'audio ou la sauvegarde locale.
+Pour publication publique, effectuer une validation éditoriale du texte coranique
+et documenter les sources du texte et des audios.
