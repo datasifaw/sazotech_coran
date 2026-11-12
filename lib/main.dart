@@ -275,6 +275,9 @@ class _FatihaScreenState extends State<FatihaScreen> {
   String? _error;
   String? _sourceName;
   int? _versetSelectionne;
+  // Le mode exercice ne change pas le texte arabe et ne modifie pas la progression.
+  bool _modeMemorisation = false;
+  final Set<int> _versetsReveles = <int>{};
   final List<GlobalKey> _cleVersets =
       List<GlobalKey>.generate(7, (_) => GlobalKey());
 
@@ -339,6 +342,35 @@ class _FatihaScreenState extends State<FatihaScreen> {
         const SnackBar(content: Text('Sauvegarde locale indisponible.')),
       );
     }
+  }
+
+  void _changerModeMemorisation(bool actif) {
+    setState(() {
+      _modeMemorisation = actif;
+      // Un nouvel exercice repart avec tous les versets masques.
+      _versetsReveles.clear();
+    });
+  }
+
+  void _basculerRevelation(int numero) {
+    if (!_modeMemorisation) return;
+    setState(() {
+      if (!_versetsReveles.add(numero)) {
+        _versetsReveles.remove(numero);
+      }
+    });
+  }
+
+  void _revelerTout() {
+    setState(() {
+      _versetsReveles.addAll(
+        List<int>.generate(FatihaScreen.versets.length, (index) => index + 1),
+      );
+    });
+  }
+
+  void _masquerTout() {
+    setState(() => _versetsReveles.clear());
   }
 
   Future<void> _toggleAudio() async {
@@ -433,69 +465,20 @@ class _FatihaScreenState extends State<FatihaScreen> {
           ),
           const SizedBox(height: 22),
           _buildAudioPlayer(),
+          const SizedBox(height: 16),
+          _buildMemorisationControls(),
           const SizedBox(height: 14),
-          const Text(
-            'Touchez un verset pour enregistrer votre position de lecture.',
+          Text(
+            _modeMemorisation
+                ? 'Récite de mémoire, puis touche un verset pour le révéler. '
+                  'Le marque-page reste indépendant.'
+                : 'Touchez un verset pour enregistrer votre position de lecture.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
+            style: const TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
           ),
           const SizedBox(height: 18),
           for (int index = 0; index < FatihaScreen.versets.length; index++) ...[
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(18),
-                onTap: () => _memoriserVerset(index + 1),
-                child: Container(
-                  key: _cleVersets[index],
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: _versetSelectionne == index + 1
-                        ? const Color(0xFF174B68)
-                        : const Color(0xFF102C4A),
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: _versetSelectionne == index + 1
-                          ? _cyan
-                          : const Color(0xFF1D5274),
-                      width: _versetSelectionne == index + 1 ? 2 : 1,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Verset ${index + 1}',
-                            style: const TextStyle(color: _cyan, fontSize: 13),
-                          ),
-                          const Spacer(),
-                          if (_versetSelectionne == index + 1) ...[
-                            const Icon(Icons.bookmark_added_rounded,
-                                color: _cyan, size: 18),
-                            const SizedBox(width: 5),
-                            const Text('Dernier lu',
-                                style: TextStyle(color: _cyan, fontSize: 12)),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        FatihaScreen.versets[index],
-                        textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          height: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildVerseCard(index),
             const SizedBox(height: 13),
           ],
           const SizedBox(height: 12),
@@ -505,6 +488,175 @@ class _FatihaScreenState extends State<FatihaScreen> {
             style: TextStyle(color: Color(0xFF9CBFD2), fontSize: 13),
           ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMemorisationControls() {
+    return Material(
+      color: const Color(0xFF113454),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Color(0xFF19608B)),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          SwitchListTile.adaptive(
+            key: const Key('mode_memorisation_switch'),
+            value: _modeMemorisation,
+            onChanged: _changerModeMemorisation,
+            activeThumbColor: _cyan,
+            secondary: const Icon(Icons.school_rounded, color: _cyan),
+            title: const Text(
+              'Mode mémorisation',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            subtitle: const Text(
+              'Cache les versets et entraîne-toi à les réciter.',
+              style: TextStyle(color: _softWhite, fontSize: 12),
+            ),
+          ),
+          if (_modeMemorisation) ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _revelerTout,
+                      icon: const Icon(Icons.visibility_outlined, size: 19),
+                      label: const Text('Tout révéler'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _masquerTout,
+                      icon: const Icon(Icons.visibility_off_outlined, size: 19),
+                      label: const Text('Tout masquer'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVerseCard(int index) {
+    final numero = index + 1;
+    final dernierLu = _versetSelectionne == numero;
+    final revele = !_modeMemorisation || _versetsReveles.contains(numero);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        key: Key('verse_card_$numero'),
+        borderRadius: BorderRadius.circular(18),
+        onTap: _modeMemorisation
+            ? () => _basculerRevelation(numero)
+            : () => _memoriserVerset(numero),
+        child: Container(
+          key: _cleVersets[index],
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: dernierLu
+                ? const Color(0xFF174B68)
+                : const Color(0xFF102C4A),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: dernierLu ? _cyan : const Color(0xFF1D5274),
+              width: dernierLu ? 2 : 1,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Text('Verset $numero',
+                      style: const TextStyle(color: _cyan, fontSize: 13)),
+                  const Spacer(),
+                  if (dernierLu) ...[
+                    const Icon(Icons.bookmark_added_rounded,
+                        color: _cyan, size: 18),
+                    const SizedBox(width: 5),
+                    const Text('Dernier lu',
+                        style: TextStyle(color: _cyan, fontSize: 12)),
+                  ],
+                ],
+              ),
+              if (_modeMemorisation) ...[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () => _memoriserVerset(numero),
+                    icon: const Icon(Icons.bookmark_add_outlined, size: 18),
+                    label: const Text('Marquer comme dernier lu'),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 15),
+              if (revele)
+                Text(
+                  FatihaScreen.versets[index],
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    height: 2,
+                  ),
+                )
+              else
+                Container(
+                  constraints: const BoxConstraints(minHeight: 95),
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF09213C),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.visibility_off_outlined,
+                          color: _cyan, size: 25),
+                      SizedBox(height: 8),
+                      Text(
+                        'Verset masqué • touche pour révéler',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: _softWhite, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              if (_modeMemorisation) ...[
+                const SizedBox(height: 13),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      revele
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: _cyan,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 7),
+                    Text(
+                      revele ? 'Touche pour masquer' : 'Touche pour révéler',
+                      style: const TextStyle(color: _cyan, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );

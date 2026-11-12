@@ -1,0 +1,53 @@
+SAZOTECH CORAN - ETAPE 4 : MODE MEMORISATION AL-FATIHA
+
+Ce correctif contient TOUS les fichiers Flutter complets utiles a cette etape.
+AUCUNE modification manuelle du code n'est necessaire.
+
+CONSERVE AUTOMATIQUEMENT
+- Ton logo SAZOTECH et le theme bleu / cyan.
+- Le texte arabe existant des 7 versets (non modifie).
+- La lecture du MP3 local : assets/audio/al_fatiha.mp3 (non fourni dans ce ZIP).
+- La progression locale (SharedPreferences), sans perte des versets deja marques.
+- Ton depot Git et ses commits, sans aucun changement de configuration Git.
+
+NOUVEAUTES
+- Interrupteur Mode memorisation sur l'ecran Al-Fatiha.
+- Tous les versets sont masques quand tu actives ce mode.
+- Touche un verset pour l'afficher / le re-masquer.
+- Boutons Tout reveler et Tout masquer.
+- Bouton Marquer comme dernier lu, independant du masquage.
+- En quittant ce mode, tous les versets redeviennent visibles.
+- L'audio local peut rester en lecture pendant l'exercice.
+
+INSTALLATION (Windows 11, PowerShell)
+1. Arrete flutter run en tapant q, ou Ctrl+C, dans le terminal.
+2. Conserve le fichier MP3 existant dans assets/audio/al_fatiha.mp3.
+3. Telecharge ce fichier ZIP dans le dossier Telechargements.
+4. Copie-colle cette commande COMPLETE :
+Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape4_MEMORISATION.zip" -DestinationPath "C:\sazotech_coran" -Force
+5. Verifie que ton Pixel 7 est lance et connecte (flutter devices).
+6. Ensuite :
+cd C:\sazotech_coran
+flutter pub get
+flutter run -d emulator-5554
+
+TEST
+1. Ouvre Al-Fatiha, puis active Mode memorisation.
+2. Verifie que les versets sont masques.
+3. Touche le verset 1 : son texte reapparait ; touche encore : il se masque.
+4. Teste Tout reveler / Tout masquer.
+5. Appuie sur Marquer comme dernier lu pour le verset 3.
+6. Reviens a l'accueil : Reprendre au verset 3 doit apparaitre.
+7. Teste Lecture / Pause avec l'audio hors ligne.
+
+IMPORTANT
+- Ne lance PAS flutter create et ne supprime PAS le dossier du projet.
+- Si l'audio local est manquant, lance d'abord installer_audio_hors_ligne.ps1
+  (il est inclus dans le ZIP). Le telechargement original reste soumis aux droits
+  du recitateur ; ne distribue pas le MP3 publiquement sans autorisation.
+- Le MP3 devrait etre ignore par Git (regle ajoutee a l'etape 2).
+- Ne commit/push que lorsque les tests Android ont reussi.
+
+GITHUB DESKTOP
+Summary : feat: mode memorisation Al-Fatiha
+Commit to main, puis Push origin.
