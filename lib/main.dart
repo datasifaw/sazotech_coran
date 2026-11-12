@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'quiz_screen.dart';
 
 void main() => runApp(const SazotechCoranApp());
 
@@ -222,6 +223,32 @@ class _AccueilScreenState extends State<AccueilScreen> {
                         : 'Reprendre au verset $_dernierVerset',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 54,
+                child: OutlinedButton.icon(
+                  key: const Key('quiz_fatiha_button'),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const QuizFatihaScreen(
+                        versets: FatihaScreen.versets,
+                      ),
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _cyan,
+                    side: const BorderSide(color: _cyan, width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  icon: const Icon(Icons.quiz_outlined),
+                  label: const Text(
+                    'Quiz Al-Fatiha',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),

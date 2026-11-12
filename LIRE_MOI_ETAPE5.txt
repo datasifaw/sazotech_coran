@@ -1,0 +1,47 @@
+SAZOTECH CORAN - ETAPE 5 : QUIZ AL-FATIHA (VERSION A)
+
+LE ZIP CONTIENT LES FICHIERS COMPLETS : pas de code a modifier a la main.
+
+NOUVEAU
+- Bouton « Quiz Al-Fatiha » sur l'accueil.
+- Cinq questions : retrouver le verset qui suit celui affiche.
+- Trois reponses en arabe, construites a partir des versets deja presents.
+- Correction immediate, resultat sur 5 et bouton Recommencer.
+- Meilleur score sauvegarde localement sur le telephone par SharedPreferences.
+- Fonctionne hors ligne, sans internet et sans Docker / MySQL / SQLite.
+
+CONSERVE
+- Logo original SAZOTECH et theme bleu / cyan.
+- Affichage arabe de la sourate Al-Fatiha, inchangé.
+- Mode memorisation Masquer/Reveler et dernier verset lu.
+- Lecteur MP3 local / boutons Lecture et Pause, sans modification.
+- Depot Git, historique GitHub et fichier .gitignore du projet.
+
+IMPORTANT POUR LE MP3
+Ce ZIP ne contient PAS de MP3 (droits de diffusion) ; ton fichier existant
+C:\sazotech_coran\assets\audio\al_fatiha.mp3 est conserve.
+Ne diffuse pas l'enregistrement sur un depot public sans les droits requis.
+
+INSTALLATION (dans Windows 11 / PowerShell)
+1. Si flutter run est actif, taper q dans son terminal.
+2. Telecharger SAZOTECH_Coran_Etape5_QUIZ.zip dans Telechargements.
+3. Copier-coller :
+Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\SAZOTECH_Coran_Etape5_QUIZ.zip" -DestinationPath "C:\sazotech_coran" -Force
+4. Ne PAS lancer flutter create : le projet existe deja.
+5. Demarrer Pixel 7 (une seule fenetre), verifier flutter devices.
+6. Lancer :
+cd C:\sazotech_coran
+flutter pub get
+flutter run -d emulator-5554
+
+TEST
+- Accueil : « Quiz Al-Fatiha » apparait sous Lire / Reprendre Al-Fatiha.
+- Ouvrir le Quiz : 5 questions, 3 choix, correction apres chaque reponse.
+- Apres la question 5 : score /5 et bouton Recommencer.
+- Refaire le Quiz : record doit rester disponible apres fermeture / reouverture.
+- Revenir a l'accueil puis ouvrir Lire Al-Fatiha : audio et memoire OK.
+- Si la compilation echoue, envoyer les 20 dernieres lignes du terminal.
+
+COMMIT ET PUSH (une fois tests reussis)
+Summary : feat: quiz de memorisation Al-Fatiha
+Commit to main > Push origin dans GitHub Desktop.
