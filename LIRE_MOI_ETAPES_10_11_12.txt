@@ -1,0 +1,59 @@
+SAZOTECH Coran - Mise a jour 2.0 (etapes 10 + 11 + 12)
+====================================================
+
+A garder : ton projet existant C:\sazotech_coran, tes MP3 dans assets/audio,
+la traduction dans assets/traductions, ta base de preferences et ton depot Git.
+
+IMPORTANT : faire un commit/push de la version precedente AVANT d'installer.
+
+1. Arreter flutter run avec q.
+2. Decompresser le ZIP dans C:\sazotech_coran, en ecrasant les fichiers du projet.
+3. Dans PowerShell :
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\installer_etapes_10_11_12.ps1"
+
+Le script telecharge 114 sourates (6236 versets) et les noms francais/arabe.
+Source principale : QuranEnc, corpus Uthmani Hafs distribue par KFGQPC.
+Source de secours : Al Quran Cloud, edition Quran Uthmani.
+Le texte des versets n'est pas retouche. Le code controle le nombre de versets
+et la presence de 114 sourates. Le fichier est installe localement dans
+assets/quran/coran_114.json et exclu par defaut du depot Git.
+
+4. Generer icone officielle, ecran de demarrage, tests et APK :
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\sazotech_coran\creer_apk_sazotech.ps1"
+
+Le script appelle : flutter pub get, dart run flutter_launcher_icons,
+dart run flutter_native_splash:create, flutter analyze, flutter test,
+flutter build apk --release. Il s'arrete en cas d'echec.
+
+APK de demo : C:\sazotech_coran\dist\SAZOTECH_Coran_Demo_v2.0.0.apk
+
+5. Tester aussi sur Pixel 7 :
+flutter devices
+flutter run -d emulator-5554
+
+6. Commit / Push GitHub Desktop apres les tests :
+feat: suivi memorisation, 114 sourates et APK de demonstration
+
+INCLUS :
+- Suivi de memorisation persistant, progression sur 114 sourates
+- Recherche par nom FR / nom arabe / numero
+- Lecteur arabe integral hors ligne, favoris et dernier verset repris
+- Audio hors-ligne pour les 4 premieres sourates choisies (1, 112, 113, 114)
+- L'ancienne traduction francaise reste disponible pour ces 4 sourates.
+- Logo SAZOTECH, icone Android et splash screen generes sur ton PC
+
+PRECISIONS :
+- Pas de 114 recitations dans cette version, seulement les 4 precedentes.
+- Pas de traduction francaise nouvelle pour les 110 autres sourates.
+- Le projet n'est pas configure pour publication Play Store (signature release).
+- Le fichier MP3 n'est pas dans le ZIP, il reste sur ton PC.
+- Verifie les droits de redistribution des MP3 avant diffusion de l'APK.
+- Aucun Wipe Data / flutter clean / reinstallation du SDK necessaire.
+
+Sources :
+https://quranenc.com/fr/home/api
+https://api.alquran.cloud/v1/quran/quran-uthmani
+https://pub.dev/packages/flutter_launcher_icons
+https://pub.dev/packages/flutter_native_splash

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'favoris_store.dart';
+import 'coran_114_store.dart';
 
 const _navy = Color(0xFF061528);
 const _cyan = Color(0xFF00D4F0);
@@ -14,6 +15,7 @@ class FavorisScreen extends StatefulWidget {
 
 class _FavorisScreenState extends State<FavorisScreen> {
   Set<String> _favoris = {};
+  Corpus114? _corpus;
   bool _chargement = true;
 
   @override
@@ -24,10 +26,15 @@ class _FavorisScreenState extends State<FavorisScreen> {
 
   Future<void> _actualiser() async {
     final favoris = await FavorisStore.lire();
-    if (mounted) setState(() { _favoris = favoris; _chargement = false; });
+    final corpus = await Coran114Store.charger();
+    if (mounted) setState(() {
+      _favoris = favoris;
+      _corpus = corpus;
+      _chargement = false;
+    });
   }
 
-  String _nom(int numero) => switch (numero) {
+  String _nom(int numero) => _corpus?.trouver(numero)?.nom ?? switch (numero) {
         1 => 'Al-Fatiha',
         112 => 'Al-Ikhlas',
         113 => 'Al-Falaq',

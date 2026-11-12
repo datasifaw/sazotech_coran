@@ -52,3 +52,5 @@ app.*.map.json
 
 /assets/audio/*.mp3
 /assets/traductions/quranenc_french_rashid.json
+/assets/quran/coran_114.json
+/dist/*.apk

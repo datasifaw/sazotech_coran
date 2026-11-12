@@ -8,6 +8,10 @@ import 'sourates_screen.dart';
 import 'favoris_store.dart';
 import 'favoris_screen.dart';
 import 'traductions_store.dart';
+import 'coran_114_store.dart';
+import 'bibliotheque_114_screen.dart';
+import 'suivi_memorisation_screen.dart';
+import 'credits_screen.dart';
 
 void main() => runApp(const SazotechCoranApp());
 
@@ -100,32 +104,54 @@ class _AccueilScreenState extends State<AccueilScreen> {
     if (mounted) await _chargerProgression();
   }
 
+  Future<void> _ouvrirLecture(int numero, {int? verset}) async {
+    if (numero == 1) {
+      await Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (_) => FatihaScreen(initialVerse: verset),
+      ));
+    } else if (numero == 112 || numero == 113 || numero == 114) {
+      final s = petitesSourates.firstWhere((s) => s.numero == numero);
+      await Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (_) => LectureSourateCourteScreen(sourate: s, initialVerse: verset),
+      ));
+    } else {
+      final corpus = await Coran114Store.charger();
+      final s = corpus?.trouver(numero);
+      if (!mounted) return;
+      if (s == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Corpus arabe manquant : exécute le script d’installation.')),
+        );
+        return;
+      }
+      await Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (_) => Lecture114Screen(sourate: s, initialVerse: verset),
+      ));
+    }
+    if (mounted) await _chargerProgression();
+  }
+
   Future<void> _ouvrirBibliotheque() async {
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => BibliothequeSouratesScreen(
-          onOuvrirFatiha: _ouvrirFatiha,
-        ),
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (_) => Bibliotheque114Screen(onOuvrir: _ouvrirLecture),
+    ));
+    if (mounted) await _chargerProgression();
+  }
+
+  Future<void> _ouvrirSuivi() async {
+    await Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (_) => SuiviMemorisationScreen(
+        onOuvrir: (numero) => _ouvrirLecture(numero),
       ),
-    );
+    ));
     if (mounted) await _chargerProgression();
   }
 
   Future<void> _ouvrirFavoris() async {
     await Navigator.of(context).push(MaterialPageRoute<void>(
       builder: (_) => FavorisScreen(
-        onOuvrir: (numeroSourate, verset) async {
-          if (numeroSourate == 1) {
-            await Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (_) => FatihaScreen(initialVerse: verset),
-            ));
-          } else {
-            final s = petitesSourates.firstWhere((s) => s.numero == numeroSourate);
-            await Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (_) => LectureSourateCourteScreen(sourate: s, initialVerse: verset),
-            ));
-          }
-        },
+        onOuvrir: (numeroSourate, verset) =>
+          _ouvrirLecture(numeroSourate, verset: verset),
       ),
     ));
     if (mounted) await _chargerProgression();
@@ -302,8 +328,26 @@ class _AccueilScreenState extends State<AccueilScreen> {
                   ),
                   icon: const Icon(Icons.library_books_rounded),
                   label: const Text(
-                    'Bibliothèque • 4 sourates',
+                    'Bibliothèque • 114 sourates',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 54,
+                child: OutlinedButton.icon(
+                  key: const Key('suivi_memorisation_button'),
+                  onPressed: _ouvrirSuivi,
+                  icon: const Icon(Icons.insights_rounded),
+                  label: const Text('Mon suivi de mémorisation',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _softWhite,
+                    side: const BorderSide(color: Color(0xFF4386B1)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                 ),
               ),
@@ -333,9 +377,17 @@ class _AccueilScreenState extends State<AccueilScreen> {
                   style: const TextStyle(color: Color(0xFFFFC4C4)),
                 ),
               ],
+              const SizedBox(height: 14),
+              TextButton.icon(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (_) => const CreditsScreen()),
+                ),
+                icon: const Icon(Icons.info_outline),
+                label: const Text('Sources et crédits'),
+              ),
               const SizedBox(height: 22),
               const Text(
-                'Version A • Prototype Android',
+                'Version 2.0 • Démonstration Android',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Color(0xFF82B4CF), fontSize: 12),
               ),
