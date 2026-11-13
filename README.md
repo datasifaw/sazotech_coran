@@ -188,7 +188,7 @@ Les suggestions et signalements de problèmes peuvent être proposés via les *I
 
 <div align="center">
 
-**SAZOTECH Solutions**  
+****  
 *Lire · Écouter · Apprendre*
 
 </div>
