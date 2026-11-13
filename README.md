@@ -1,62 +1,98 @@
-# SAZOTECH Coran 📖
+<div align="center">
 
-**Lire • Écouter • Apprendre** — Application éducative du Coran pour Android, développée avec Flutter et Dart.
+# 📖 SAZOTECH CORAN
+
+### Lire · Écouter · Apprendre
+
+**Application éducative du Coran pour Android, développée avec Flutter et Dart.**
+
+![Flutter](https://img.shields.io/badge/Flutter-Dart-02569B?logo=flutter&logoColor=white)
+![Android](https://img.shields.io/badge/Plateforme-Android-3DDC84?logo=android&logoColor=white)
+![Version](https://img.shields.io/badge/Version-2.0.0-00BBD6)
+![Statut](https://img.shields.io/badge/Statut-Prototype%20Android-64748B)
 
 ![Visuel de présentation de SAZOTECH Coran](docs/images/sazotech-coran-presentation.png)
 
-> **État :** prototype Android **2.0.0**, compilé et installé avec succès sur un émulateur Pixel 7. Tests fonctionnels complets et droits de redistribution encore à finaliser. L'image ci-dessus est un **visuel promotionnel**, pas une capture certifiée de la version finale.
+*Illustration promotionnelle, non contractuelle : l'interface installée peut différer de l'image.*
 
-## Fonctionnalités
+</div>
 
-| Fonction | Disponibilité dans le prototype |
-| --- | --- |
-| **Lecture du Coran** | Texte arabe des **114 sourates**, consultable hors connexion après préparation des données |
-| **Recherche** | Par nom de sourate en français/arabe ou par numéro |
-| **Audio hors ligne** | Lecture, pause et réécoute pour **Al-Fatiha (1), Al-Ikhlas (112), Al-Falaq (113), An-Nas (114)** |
-| **Traduction française** | Rachid Maach (QuranEnc), pour ces **4 sourates seulement**, si le pack local est installé |
-| **Favoris** | Ajouter/retirer des versets et les retrouver dans *Mes favoris* |
-| **Lecture suivie** | Sauvegarde locale du dernier verset consulté |
-| **Mémorisation** | Masquer/révéler les versets ; marquer les sourates apprises et suivre la progression sur 114 |
-| **Quiz** | Quiz éducatif d'Al-Fatiha et meilleur score enregistré |
-| **Identité SAZOTECH** | Thème bleu nuit/cyan, logo, icône et écran de démarrage Android |
+## 🌙 Présentation
 
-> **Limites actuelles :** il n'y a pas encore d'audio ni de traduction française pour les **110 autres sourates**. Le rendu des 114 sourates dépend du téléchargement du corpus arabe pendant l'installation sur le PC de développement.
+**SAZOTECH Coran** est un projet Android éducatif conçu pour accompagner la **lecture**, l'**écoute** et la **mémorisation** du Coran. Il propose une interface en français, un texte coranique en arabe et une expérience centrée sur l'apprentissage, avec une identité graphique bleu nuit et cyan.
 
-## Technologies
+La version **2.0.0** du prototype a été **compilée en APK release** et **installée avec succès sur un émulateur Android Pixel 7**. Il reste à terminer la validation fonctionnelle complète avant une distribution publique.
 
-- **Flutter / Dart** : application mobile et interface.
-- **Android SDK / Android Studio** : compilation et émulateur Android.
-- **just_audio** : lecteur de fichiers audio locaux.
-- **shared_preferences** : favoris, marque-pages, progression, quiz et suivi de mémorisation stockés sur l'appareil.
-- **Git / GitHub** : versionnement du projet.
-- **PowerShell** : scripts Windows pour préparer les ressources et générer l'APK.
+## ✨ Fonctionnalités
 
-**Aucun serveur, Docker, MySQL ou compte utilisateur n'est requis** pour le fonctionnement du prototype.
+| Fonctionnalité | Contenu de la V2.0 |
+| :--- | :--- |
+| 📚 **114 sourates** | Texte arabe consultable hors ligne après préparation du corpus sur le PC |
+| 🔎 **Recherche** | Par numéro et par nom de sourate |
+| 🎧 **Audio hors ligne** | Lecture / pause / réécoute de **4 sourates** : Al-Fatiha (1), Al-Ikhlas (112), Al-Falaq (113), An-Nas (114) |
+| 🇫🇷 **Traduction française** | Traduction Rachid Maach disponible pour ces **4 sourates**, après installation du pack local |
+| ⭐ **Favoris et marque-pages** | Enregistrement et consultation des versets favoris |
+| 🔖 **Reprise de lecture** | Dernier verset consulté sauvegardé localement |
+| 🧠 **Mémorisation** | Masquer / révéler les versets et marquer les sourates apprises |
+| 📊 **Suivi** | Progression des sourates mémorisées sur 114 |
+| 🏆 **Quiz** | Quiz de mémorisation d'Al-Fatiha avec meilleur score local |
+| 🎨 **Identité SAZOTECH** | Logo, icône Android, écran de démarrage et thème bleu/cyan |
 
-## Préparer le projet sur Windows 11
+> **Périmètre actuel :** les 110 autres sourates n'ont pas encore d'audio hors ligne ni de traduction française intégrés. L'application utilise des fichiers locaux préparés sur le PC de développement ; certains sont volontairement exclus du dépôt Git.
 
-Prérequis : [Flutter](https://docs.flutter.dev/get-started/install/windows/mobile), Android SDK (via Android Studio), VS Code et Git/GitHub Desktop.
+## 🛠️ Stack technique
 
-Cloner le dépôt dans un dossier local, puis ouvrir un terminal PowerShell à sa racine. Les commandes ci-dessous supposent que le dossier est `C:\\sazotech_coran` :
+- **Flutter / Dart** — application mobile et interface utilisateur.
+- **Android Studio / Android SDK** — compilation Android et émulateur Pixel 7.
+- **VS Code** — environnement de développement.
+- **`just_audio`** — lecteur des enregistrements audio locaux.
+- **`shared_preferences`** — favoris, progression, quiz et suivi conservés sur l'appareil.
+- **Git et GitHub Desktop** — historique, commits et push.
+- **PowerShell** — préparation des contenus et génération de l'APK.
+
+**Pas de backend, Docker, MySQL ni compte utilisateur nécessaires** pour le prototype.
+
+## 🚀 Installation et exécution (Windows 11)
+
+### Prérequis
+
+- [Flutter SDK](https://docs.flutter.dev/get-started/install/windows/mobile) avec Dart.
+- [Android Studio](https://developer.android.com/studio) et Android SDK.
+- [Visual Studio Code](https://code.visualstudio.com/) et extension Flutter.
+- Git ou GitHub Desktop.
+
+Cloner ce dépôt avec GitHub Desktop, puis ouvrir un terminal **PowerShell** à sa racine. Les commandes ci-dessous utilisent le chemin de développement historique `C:\sazotech_coran` : adaptez-le si nécessaire.
 
 ```powershell
 cd C:\sazotech_coran
 flutter doctor
+```
 
-# Télécharger les audios des 4 sourates et la traduction française
+### 1. Préparer les contenus locaux
+
+Une connexion Internet est nécessaire **sur le PC pendant cette préparation** :
+
+```powershell
+# Audio des quatre sourates et traduction française
 powershell -NoProfile -ExecutionPolicy Bypass -File .\installer_etapes_7_8_9.ps1
 
-# Télécharger et contrôler les 114 sourates en arabe
+# Corpus arabe des 114 sourates (contrôle du nombre de versets)
 powershell -NoProfile -ExecutionPolicy Bypass -File .\installer_etapes_10_11_12.ps1
+```
 
+Le script du corpus contrôle **114 sourates et 6 236 versets** avant de rendre les données disponibles à l'application. Les fichiers MP3, le corpus JSON et le pack de traduction sont préparés localement ; leurs téléchargements peuvent dépendre de la disponibilité des fournisseurs.
+
+### 2. Vérifier le projet
+
+```powershell
 flutter pub get
 flutter analyze
 flutter test
 ```
 
-Les scripts téléchargent des fichiers depuis leurs fournisseurs respectifs. Ils requièrent une connexion Internet sur le **PC lors de la préparation** et peuvent échouer temporairement si une source est indisponible.
+> Le journal de construction V2.0 signale **8 remarques de style** non bloquantes. Un avertissement relatif à `SharedPreferencesAsyncPlatform` a également été observé dans la sortie des tests, même si leur bilan global indiquait une réussite.
 
-### Lancer sur le Pixel 7 virtuel
+### 3. Tester sur l'émulateur Android
 
 ```powershell
 flutter emulators --launch Pixel_7
@@ -64,58 +100,95 @@ flutter devices
 flutter run -d emulator-5554
 ```
 
-Ne lancez qu'un émulateur à la fois. Si son identifiant change, utilisez celui affiché par `flutter devices`.
+L'identifiant peut varier : utilisez celui affiché par `flutter devices`. Si l'émulateur est déjà ouvert, ne lancez pas une deuxième instance.
 
-### Construire l'APK Android de démonstration
+## 📦 Construire l'APK de démonstration
 
 ```powershell
+cd C:\sazotech_coran
 powershell -NoProfile -ExecutionPolicy Bypass -File .\creer_apk_sazotech.ps1
 ```
 
-En cas de réussite, le script copie le fichier ici :
+Après exécution réussie, le script produit :
 
 ```text
 dist/SAZOTECH_Coran_Demo_v2.0.0.apk
 ```
 
-Cet APK est une **version de démonstration**, pas une distribution Play Store prête à publier. Les tests manuels sur téléphone et la vérification des droits des médias restent nécessaires.
+Le journal de compilation a confirmé un APK Android release d'environ **61,5 Mo**, installé sur l'émulateur Pixel 7 par la commande ADB avec un résultat **`Success`**.
 
-## Structure du projet
+Pour installer l'APK sur un émulateur déjà démarré :
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s emulator-5554 install -r "C:\sazotech_coran\dist\SAZOTECH_Coran_Demo_v2.0.0.apk"
+```
+
+> **Important :** il s'agit d'un APK de **démonstration**. Il ne doit pas être présenté comme une application Google Play validée, ni distribué publiquement avec ses contenus tiers tant que leurs droits de redistribution et les tests finaux ne sont pas confirmés.
+
+## 🗂️ Organisation du dépôt
 
 ```text
 sazotech_coran/
-├── lib/                         # écrans, stockage local, quiz, audio
+├── android/                     # Configuration Android
+├── lib/                         # Écrans Flutter, quiz, favoris, audio, mémorisation
+├── test/                        # Tests Flutter
 ├── assets/
-│   ├── images/                  # logos et icônes
-│   ├── audio/                   # MP3 locaux (téléchargés séparément)
-│   ├── traductions/             # JSON local (téléchargé séparément)
-│   └── quran/                   # texte arabe (téléchargé séparément)
-├── docs/images/                 # image de présentation du projet
-├── test/                        # tests Flutter
+│   ├── images/                  # Identité visuelle SAZOTECH
+│   ├── audio/                   # MP3 installés localement
+│   ├── quran/                   # Corpus arabe téléchargé
+│   └── traductions/             # Traduction installée localement
+├── docs/images/                 # Visuel de présentation GitHub
 ├── installer_etapes_7_8_9.ps1
 ├── installer_etapes_10_11_12.ps1
-└── creer_apk_sazotech.ps1
+├── creer_apk_sazotech.ps1
+├── pubspec.yaml
+└── README.md
 ```
 
-Les fichiers MP3, le corpus arabe local, le pack de traduction et les APK générés peuvent être exclus du dépôt par `.gitignore` ; ils doivent être préparés sur le PC lors d'un nouveau clonage. Vérifiez ce point avant un lancement sur une nouvelle machine.
+Les MP3, le corpus `coran_114.json`, le pack local de traduction et les APK générés peuvent être exclus du dépôt via `.gitignore`. Il faut donc lancer les scripts de préparation sur un nouveau PC avant de compiler.
 
-## Sources et crédits
+## 📚 Sources, attribution et droits
 
-- **Texte arabe** : corpus Uthmani Hafs proposé par [QuranEnc](https://quranenc.com/fr/home/api) (source principale du script), ou [Al Quran Cloud](https://alquran.cloud/api) en secours. Les scripts contrôlent la présence de 114 sourates et de 6 236 versets.
-- **Traduction française (4 sourates)** : **Rachid Maach**, distribuée par [QuranEnc](https://quranenc.com/fr/browse/french_rashid). La version exacte est enregistrée dans les métadonnées du fichier local téléchargé.
-- **Récitations (4 sourates)** : **Mishary Rashid Al-Afasy**, fichiers obtenus par les sources mentionnées dans `installer_etapes_7_8_9.ps1`.
-- **Identité visuelle** : SAZOTECH Solutions. Le visuel promotionnel de ce dépôt illustre l'application et peut différer de l'interface compilée.
+| Ressource | Source / crédit |
+| :--- | :--- |
+| **Texte arabe** | Corpus Uthmani Hafs depuis [QuranEnc](https://quranenc.com/fr/home/api), avec recours possible à [Al Quran Cloud](https://alquran.cloud/api) selon le script |
+| **Traduction française** | **Rachid Maach**, via [QuranEnc](https://quranenc.com/fr/browse/french_rashid) ; le pack local conserve les informations de version |
+| **Récitations** | **Mishary Rashid Al-Afasy**, par les fournisseurs indiqués dans `installer_etapes_7_8_9.ps1` |
+| **Logo et identité** | SAZOTECH Solutions |
 
-**Droits d'utilisation :** les conditions des fournisseurs de textes, traductions et audios doivent être vérifiées avant redistribution d'un APK public contenant ces ressources. En particulier, la disponibilité d'un MP3 au téléchargement ne vaut pas autorisation de le redistribuer. Aucun droit sur les contenus tiers n'est revendiqué.
+Les textes coraniques et traductions doivent être reproduits fidèlement, en respectant les conditions et mentions de leurs sources. **Un fichier audio disponible en téléchargement n'est pas automatiquement libre de redistribution.** Les droits sur les contenus tiers restent la propriété de leurs titulaires respectifs.
 
-## État de la version 2.0.0
+## ✅ État du projet
 
-- [x] Compilation de l'APK Android de démonstration.
-- [x] Installation de l'APK sur l'émulateur Pixel 7.
-- [ ] Validation manuelle complète des fonctionnalités sur le binaire de distribution.
-- [ ] Vérification des droits de redistribution des contenus avant publication publique de l'APK.
-- [ ] Signature et préparation éventuelle pour le Google Play Store.
+- [x] Prototype Flutter avec identité SAZOTECH.
+- [x] Bibliothèque de 114 sourates intégrée au code.
+- [x] Audio de 4 sourates, favoris, quiz et mémorisation intégrés.
+- [x] APK de démonstration compilé.
+- [x] APK installé sur émulateur Pixel 7.
+- [x] Documentation GitHub et visuel de présentation.
+- [ ] Validation manuelle complète de chaque fonctionnalité sur l'APK release.
+- [ ] Confirmation des droits de redistribution des récitations avant mise en ligne de l'APK.
+- [ ] Publication d'une version signée et préparée pour une boutique Android, si souhaitée.
 
-## Contributions et licence
+## 📌 Versionnement et Release
 
-Projet SAZOTECH en cours de développement. **Aucune licence de code n'est définie ici** : n'en déduisez pas une autorisation générale de réutilisation. Pour contribuer ou demander une autorisation, ouvrez une issue sur ce dépôt si son propriétaire a activé les issues.
+**Version du projet :** `2.0.0+10` (Flutter).  
+**Tag de préversion suggéré :** `v2.0.0-beta.1`.
+
+Une Release GitHub en **brouillon** peut présenter le projet sans joindre publiquement l'APK tant que les vérifications ci-dessus ne sont pas achevées.
+
+## 🤝 Contributions
+
+Les suggestions et signalements de problèmes peuvent être proposés via les *Issues* du dépôt si cette fonctionnalité est activée.
+
+**Licence du code :** aucune licence open source n'est attribuée dans ce README. Ne considérez pas le code ni les médias comme librement réutilisables sans autorisation explicite.
+
+---
+
+<div align="center">
+
+**SAZOTECH Solutions**  
+*Lire · Écouter · Apprendre*
+
+</div>
