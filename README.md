@@ -126,7 +126,7 @@ Pour installer l'APK sur un émulateur déjà démarré :
 
 > **Important :** il s'agit d'un APK de **démonstration**. Il ne doit pas être présenté comme une application Google Play validée, ni distribué publiquement avec ses contenus tiers tant que leurs droits de redistribution et les tests finaux ne sont pas confirmés.
 
-## 🗂️ Organisation du dépôt
+## 🗂️ Organisation du dépôt 
 
 ```text
 sazotech_coran/
