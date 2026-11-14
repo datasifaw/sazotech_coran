@@ -92,7 +92,7 @@ flutter test
 
 > Le journal de construction V2.0 signale **8 remarques de style** non bloquantes. Un avertissement relatif à `SharedPreferencesAsyncPlatform` a également été observé dans la sortie des tests, même si leur bilan global indiquait une réussite.
 
-### 3. Tester sur l'émulateur Android
+### 3. Tester sur l'émulateur Android 
 
 ```powershell
 flutter emulators --launch Pixel_7
