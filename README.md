@@ -102,7 +102,7 @@ flutter run -d emulator-5554
 
 L'identifiant peut varier : utilisez celui affiché par `flutter devices`. Si l'émulateur est déjà ouvert, ne lancez pas une deuxième instance.
 
-## 📦 Construire l'APK de démonstration
+## 📦 Construire l'APK de démonstration 
 
 ```powershell
 cd C:\sazotech_coran
