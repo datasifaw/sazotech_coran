@@ -29,7 +29,7 @@ La version **2.0.0** du prototype a été **compilée en APK release** et **inst
 | :--- | :--- |
 | 📚 **114 sourates** | Texte arabe consultable hors ligne après préparation du corpus sur le PC |
 | 🔎 **Recherche** | Par numéro et par nom de sourate |
-| 🎧 **Audio hors ligne** | Lecture / pause / réécoute de **4 sourates** : Al-Fatiha (1), Al-Ikhlas (112), Al-Falaq (113), An-Nas (114) |
+| 🎧 **Audio hors ligne** | Lecture / pause / réécoute de **4 sourates** : Al-Fatiha (1), Al-Ikhlas (112), Al-Falaq (113), An-Nas (114) | 
 | 🇫🇷 **Traduction française** | Traduction Rachid Maach disponible pour ces **4 sourates**, après installation du pack local |
 | ⭐ **Favoris et marque-pages** | Enregistrement et consultation des versets favoris |
 | 🔖 **Reprise de lecture** | Dernier verset consulté sauvegardé localement |
