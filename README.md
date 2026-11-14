@@ -2,7 +2,7 @@
 
 # 📖 SAZOTECH CORAN
 
-### Lire · Écouter · Apprendre
+### Lire -- Écouter -- Apprendre
 
 **Application éducative du Coran pour Android, développée avec Flutter et Dart.**
 
