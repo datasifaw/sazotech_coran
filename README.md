@@ -82,7 +82,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\installer_etapes_10_11_12.
 
 Le script du corpus contrôle **114 sourates et 6 236 versets** avant de rendre les données disponibles à l'application. Les fichiers MP3, le corpus JSON et le pack de traduction sont préparés localement ; leurs téléchargements peuvent dépendre de la disponibilité des fournisseurs.
 
-### 2. Vérifier le projet
+### 2. Vérifier le projet 
 
 ```powershell
 flutter pub get
