@@ -23,7 +23,7 @@
 
 La version **2.0.0** du prototype a été **compilée en APK release** et **installée avec succès sur un émulateur Android Pixel 7**. Il reste à terminer la validation fonctionnelle complète avant une distribution publique.
 
-## ✨ Fonctionnalités
+## ✨ Fonctionnalités 
 
 | Fonctionnalité | Contenu de la V2.0  |
 | :--- | :--- |
