@@ -25,7 +25,7 @@ La version **2.0.0** du prototype a été **compilée en APK release** et **inst
 
 ## ✨ Fonctionnalités
 
-| Fonctionnalité | Contenu de la V2.0 |
+| Fonctionnalité | Contenu de la V2.0  |
 | :--- | :--- |
 | 📚 **114 sourates** | Texte arabe consultable hors ligne après préparation du corpus sur le PC |
 | 🔎 **Recherche** | Par numéro et par nom de sourate |
