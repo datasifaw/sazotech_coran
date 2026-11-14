@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📖 SAZOTECH CORAN
+# 📖 SAZOTECH CORAN 
 
 ### Lire -- Écouter -- Apprendre
 
