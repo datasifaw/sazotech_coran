@@ -5,7 +5,7 @@
 ### Lire - Écouter - Apprendre
 
 **Application éducative du Coran pour Android,  développée avec Flutter et Dart.**
-    
+     
 ![Flutter](https://img.shields.io/badge/Flutter-Dart-02569B?logo=flutter&logoColor=white)
 ![Android](https://img.shields.io/badge/Plateforme-Android-3DDC84?logo=android&logoColor=white)
 ![Version](https://img.shields.io/badge/Version-2.0.0-00BBD6)
