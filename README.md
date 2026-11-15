@@ -17,7 +17,7 @@
 
 </div>
 
-## 🌙 Présentation
+## 🌙 Présentation :
 
 **SAZOTECH Coran** est un projet Android éducatif conçu pour accompagner la **lecture**, l'**écoute** et la **mémorisation** du Coran. Il propose une interface en français, un texte coranique en arabe et une expérience centrée sur l'apprentissage, avec une identité graphique bleu nuit et cyan.
 
