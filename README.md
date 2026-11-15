@@ -40,7 +40,7 @@ La version **2.0.0** du prototype a été **compilée en APK release** et **inst
 
 > **Périmètre actuel :** les 110 autres sourates n'ont pas encore d'audio hors ligne ni de traduction française intégrés. L'application utilise des fichiers locaux préparés sur le PC de développement ; certains sont volontairement exclus du dépôt Git.
 
-## 🛠️ Stack technique
+## 🛠️ Stack technique 
 
 - **Flutter / Dart** — application mobile et interface utilisateur.
 - **Android Studio / Android SDK** — compilation Android et émulateur Pixel 7.
